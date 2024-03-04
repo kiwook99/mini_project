@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+          "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="a.b.c.com.books.product.dao.BooksProductDAO">
+
+<select id="booksProductSelectAll" parameterType="booksproductvo" resultType="booksproductvo">
+	
+	SELECT  *
+	FROM    PRODUCT_BOOKS
+	WHERE 	DELETEYN = 'Y'
+</select>
+
+<select id="booksProductSelect" parameterType="booksproductvo" resultType="booksproductvo">
+	
+	SELECT  *
+	FROM    PRODUCT_BOOKS
+	WHERE 	DELETEYN = 'Y'
+	AND PBNUM = #{pbnum, jdbcType=VARCHAR}
+</select>
+
+<select id="booksProductSelectLogin" parameterType="booksproductvo" resultType="booksproductvo">
+	
+	SELECT  *
+	FROM    PRODUCT_BOOKS
+	WHERE 	DELETEYN = 'Y'
+</select>
+</mapper>
+
+ 

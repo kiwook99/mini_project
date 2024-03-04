@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+          "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+          
+<mapper namespace="a.b.c.com.books.order.dao.BooksOrderDAO">
+
+<insert id="booksOrderInsert" parameterType="booksordervo" >
+
+	INSERT INTO ORDER_BOOKS (	
+								OBNUM, 
+								PBNUM, PBNAME, PBCNT, 
+								PBPRICE, PBPRICESUM, CBNUM 
+								CBMID, CBMNAME, CBMHP,
+								CBMEMAIL, OODERIVARY, 
+								OOZONE,
+								OOROAD, OOROAD2, OOJIBUN,
+								DELETEYN, INSERTDATE, UPDATEDATE
+							)
+            			VALUES
+            				(   (SELECT 'P' || LPAD(NVL(MAX(SUBSTR(A.KONUM, -4)), 0) + 1, 4, 0) AS CHABUN FROM ORDER_BOOKS A), 
+            					#{pbnum}, #{pbname},
+            					#{pbcnt}, #{pbprice}, #{pbpricesum},
+            					#{cbnum}, #{cbid}, #{cbname},
+            					#{cbmhp}, #{cbemail},
+            					#{oodelivery},
+            					'Y', SYSDATE, SYSDATE
+            				 )
+</insert>
+
+
+</mapper>      

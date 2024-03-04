@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+          "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+          
+<mapper namespace="a.b.c.com.books.cart.dao.BooksCartDAO">
+
+<insert id="booksCartInsert" parameterType="bookscartvo">
+	
+		INSERT INTO CART_BOOKS (CBNUM, PBNUM, PBNAME, 
+								PBFILE, PBCNT, PBPRICE, 
+								PBPRICESUM,KMNUM, DELETEYN, INSERTDATE, UPDATEDATE)
+            			VALUES( (SELECT 'C' || LPAD(NVL(MAX(SUBSTR(A.CBNUM, -4)), 0) + 1, 4, 0) AS CHABUN FROM CART_BOOKS A),
+            					#{pbnum , jdbcType=VARCHAR}, 
+            					#{pbname, jdbcType=VARCHAR},
+								#{pbfile, jdbcType=VARCHAR},            					             					
+            					#{pbcnt}, 
+            					#{pbprice},
+            					#{pbpricesum},
+            					#{kmnum}, 
+            					'Y', 
+            					SYSDATE, 
+            					SYSDATE)
+</insert>
+
+<select id="booksCartSelectAll" parameterType="bookscartvo" resultType="bookscartvo">	
+	
+		SELECT  A.CBNUM			CBNUM
+			   ,A.PBNUM 		PBNUM
+		       ,A.PBNAME 		PBNAME
+		       ,A.PBFILE 		PBFILE
+		       ,A.PBCNT 		PBCNT
+		       ,A.PBPRICE 		PBPRICE
+		       ,A.PBPRICESUM 	PBPRICESUM
+		       ,A.KMNUM			KMNUM
+		       ,A.DELETEYN 	DELETEYN
+		       ,TO_CHAR(A.INSERTDATE, 'YYYY-MM-DD') INSERTDATE
+		       ,TO_CHAR(A.UPDATEDATE, 'YYYY-MM-DD') UPDATEDATE	  
+		FROM 	CART_BOOKS A
+		WHERE 	A.DELETEYN = 'Y'
+		AND 	A.KMNUM = #{kmnum} 	
+		ORDER BY 1 DESC  
+	
+</select>
+
+<update id="booksCartDelete" parameterType="bookscartvo" >
+ 
+		UPDATE 	CART_BOOKS 
+		SET 	DELETEYN = 'N', 
+				UPDATEDATE = SYSDATE 			
+		WHERE CBNUM = #{cbnum, jdbcType=VARCHAR} 
+	
+</update>
+
+<update id="booksCartDeleteArray" parameterType="bookscartvo" >
+	<foreach collection="list" item="item" index="index" separator=";" open="DECLARE BEGIN" close="; END;"> 
+	
+		UPDATE 	CART_BOOKS 
+		SET 	DELETEYN = 'N', 
+				UPDATEDATE = SYSDATE 			
+		WHERE CBNUM = #{item.cbnum, jdbcType=VARCHAR}
+		 
+	</foreach>
+</update>
+</mapper>

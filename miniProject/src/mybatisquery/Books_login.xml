@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+          "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="a.b.c.com.books.login.dao.BooksLoginDAO">
+
+<select id="loginCheck" parameterType="booksmemvo" resultType="booksmemvo">
+	
+	SELECT  
+       		 A.MBID     		MBID
+       		,A.MBPW     		MBPW
+	FROM    MEMBER_BOOKS A
+	WHERE 	A.DELETEYN = 'Y'
+	AND   	A.MBID = #{mbid, jdbcType=VARCHAR}	                          	 
+	AND   	A.MBPW = #{mbpw, jdbcType=VARCHAR} 
+</select>
+
+<select id="test_tempIdEmail" parameterType="booksmemvo" resultType="booksmemvo">
+	
+	SELECT  
+       		 A.MBID     		MBID
+	FROM    MEMBER_BOOKS A
+	WHERE 	A.DELETEYN = 'Y'
+	AND   	A.MBADDR = #{mbaddr, jdbcType=VARCHAR}	    
+	                      	 
+</select>
+
+<select id="IdCheck" parameterType="booksmemvo" resultType="booksmemvo">
+	
+	SELECT  
+       		 A.MBID     		MBID,
+       		 A.MBADDR		MBADDR
+	FROM    MEMBER_BOOKS A
+	WHERE 	A.DELETEYN = 'Y'
+	AND   	A.MBADDR = #{mbaddr, jdbcType=VARCHAR}	    
+	                      	 
+</select>
+
+
+</mapper>         	  

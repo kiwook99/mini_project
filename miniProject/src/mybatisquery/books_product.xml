@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+          "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="a.b.c.com.books.product.dao.BooksProductDAO">
+
+<insert id="booksProductInsert" parameterType="booksproductvo">
+	
+	INSERT INTO PRODUCT_BOOKS (	PBNUM, PBNAME, PBGENRE,
+								PBCOMPANY, PBFILE, PBCNT, 
+								PBPRICE, PBDESC, DELETEYN, 
+								UPDATEDATE, INSERTDATE)
+            			VALUES( #{pbnum, jdbcType=VARCHAR}, 
+            					#{pbname, jdbcType=VARCHAR}, 
+            					#{pbgenre, jdbcType=VARCHAR},
+            					#{pbcompany, jdbcType=VARCHAR}, 
+            					#{pbfile, jdbcType=VARCHAR}, 
+            					#{pbcnt}, 
+            					#{pbprice}, 
+            					#{pbdesc, jdbcType=VARCHAR}, 
+            					'Y', 
+            					#{updatedate, jdbcType=VARCHAR}, 
+            					SYSDATE)
+</insert>
+
+<!-- SELECT -->
+<select id = "booksSearch" parameterType="booksproductvo" resultType="booksproductvo">
+   
+   SELECT
+   		  A.PBNUM		PBNUM
+         ,A.PBNAME      PBNAME
+         ,A.PBGENRE      PBGENRE
+         ,A.PBCOMPANY   PBCOMPANY
+         ,A.PBFILE		PBFILE
+         ,A.PBCNT		PBCNT
+         ,A.PBPRICE		PBPRICE
+         ,A.PBDESC		PBDESC
+         ,A.INSERTDATE INSERTDATE
+   FROM PRODUCT_BOOKS A
+   WHERE 1=1 AND DELETEYN = 'Y'
+   
+   <if test ="searchFilter == 'key_01'">
+      <![CDATA[ AND A.PBNAME LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%']]>      
+   </if>
+   
+   <if test="searchFilter=='key_02'">
+      <![CDATA[ AND A.PBCOMPANY LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%']]>
+   </if>
+
+	<if test="searchFilter=='key_03'">
+      <![CDATA[ AND A.PBGENRE LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%']]>
+   </if>
+     
+   
+</select>
+</mapper>
